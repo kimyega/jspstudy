@@ -11,12 +11,12 @@
 <script>
   $(function() {
     $('#btn_submit').click(function() {
-      if($('$type').val() === '1'){
+      if($('#type').val() === '1'){
         $('#frm').attr('action', '${contextPath}/getDate.do');
       } else if($('#type').val() === '2'){
-        $('#frm').attr('action', '${contextPath}/getDate.do');
+        $('#frm').attr('action', '${contextPath}/getTime.do');
       }
-    }
+    })
   })
 </script>
 </head>
