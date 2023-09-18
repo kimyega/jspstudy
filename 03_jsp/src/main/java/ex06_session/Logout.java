@@ -33,7 +33,7 @@ public class Logout extends HttpServlet {
 	  session.invalidate();
 	  
 	  // 로그인 화면으로 돌아가기
-	  response.sendRedirect(request.getContextPath() + "/ex06_session/login.jsp");
+	  response.sendRedirect(request.getContextPath() + "/ex06_session/main.jsp");
 	}
 
 	/**

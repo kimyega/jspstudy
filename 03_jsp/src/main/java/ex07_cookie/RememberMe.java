@@ -1,24 +1,24 @@
-package ex06_session;
+package ex07_cookie;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class Login
+ * Servlet implementation class RememberMe
  */
-@WebServlet("/login")
-public class Login extends HttpServlet {
+@WebServlet("/rememberMe")
+public class RememberMe extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Login() {
+    public RememberMe() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,19 +30,25 @@ public class Login extends HttpServlet {
 	  request.setCharacterEncoding("UTF-8");
 	  
 	  String id = request.getParameter("id");
-	  String pw = request.getParameter("pw");
-	
-	  // id와 pw가 동일하면 성공
-	  if(id.equals(pw)) {
-	    // 로그인 처리 : session에 id를 저장해 두기
-	    HttpSession session = request.getSession();
-	    session.setAttribute("id", id);
-	    session.setMaxInactiveInterval(60 * 10);   // 10분 세션 유지 
+	  String rememberMe = request.getParameter("remember_me");
+	  
+	  System.out.println(id + rememberMe); // checkbox의 체크가 없으면 null,  입력상자의 입력이 없으면 빈문자열 ("")
+	  
+	  // 아이디 기억하시지
+	  Cookie cookie = null;
+	  
+	  if(rememberMe != null) { // if(remember_me.equals("on"))과 동일함
+	    cookie = new Cookie("remember_me", id);
+	    cookie.setMaxAge(60 * 60 * 24 * 15);
+	  } else {
+	    cookie = new Cookie("remember_id", "");
+	    cookie.setMaxAge(0);
 	  }
+	  // 쿠키는 클라이언트에게 전달한다. (쿠키는 클라이언트가 저장한다.)
+	  response.addCookie(cookie);
 	  
-	  // 로그인 화면으로 되돌아가기
-	  response.sendRedirect(request.getContextPath() + "/ex06_session/main.jsp");
-	  
+	  // 메인 화면으로
+	  response.sendRedirect(request.getContextPath() + "/ex07_cookie/main.jsp");
 	}
 
 	/**

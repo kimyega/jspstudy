@@ -47,6 +47,23 @@
   <div><button type="button" id="btn_logout">로그아웃</button></div>
 </c:if>
 
-
+  <hr>
+  
+  <div>
+    <form method="get" action="${contextPath}/addToCart">
+      <h4>쇼핑목록</h4>
+      <div>
+        <select name="item">
+          <option>진라면</option>
+          <option>신라면</option>
+          <option>삼양라면</option>
+        </select>
+        <input type="text" name="ea" placeholder="구매개수">
+     </div>
+     <div>
+       <button type="submit">장바구니 추가</button>
+     </div>
+    </form>
+  </div>
 </body>
 </html>
