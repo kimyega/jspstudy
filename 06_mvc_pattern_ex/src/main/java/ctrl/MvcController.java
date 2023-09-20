@@ -1,7 +1,6 @@
-package controller;
+package ctrl;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,34 +31,36 @@ public class MvcController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  
+	  // 요청 인코딩 + 응답 타입과 인코딩
 	  request.setCharacterEncoding("UTF-8");
-	  response.setContentType("text/html; charset=UTF-8");
+	  response.setContentType("test/html; charset=UTF-8");
 	  
 	  String requestURI = request.getRequestURI();
 	  String contextPath = request.getContextPath();
 	  String urlMapping = requestURI.substring(contextPath.length());
 	  
 	  MvcService mvcService = new MvcServiceImpl();
+	  
 	  ActionForward af = null;
 	  
 	  switch(urlMapping) {
-	  case "/getDate.do":
-	    af = mvcService.getDate(request);
+	  case "/getAge.do":
+	    af = mvcService.getAge(request);
 	    break;
-	  case "/getTime.do":
-	    af = mvcService.getTime(request);
+	  case "/getAbs.do":
+	    mvcService.getAbs(request, response);
 	    break;
-	  case "/getDateTime.do":
-	    mvcService.getDateTime(request, response);
+	  case "/getInfo.do":
+	    af = mvcService.getInfo(request);
 	    break;
 	  }
+	  
 	  if(af != null) {
 	    if(af.isRedirect()) {
-	       response.sendRedirect(af.getPath());
+	      response.sendRedirect(af.getPath());
 	    } else {
-	      request.getRequestDispatcher(af.getPath()).forward(request, response);
-	      
-	    }
+        request.getRequestDispatcher(af.getPath()).forward(request, response);
+      }
 	  }
 	}
 
