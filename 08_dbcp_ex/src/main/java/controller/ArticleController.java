@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,59 +12,67 @@ import service.ArticleService;
 import service.ArticleServiceImpl;
 
 /**
- * Servlet implementation class BoardController
+ * Servlet implementation class ArticleController
  */
 @WebServlet("*.do")
 public class ArticleController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ArticleController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+  private static final long serialVersionUID = 1L;
+  
+  private ArticleService articleService = new ArticleServiceImpl();
+  
+  /**
+   * @see HttpServlet#HttpServlet()
+   */
+  public ArticleController() {
+    super();
+    // TODO Auto-generated constructor stub
+  }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	  response.setContentType("text/html; charset=UTF-8");
+  /**
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+   */
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    response.setContentType("text/html; charset=UTF-8");
     
     String requestURI = request.getRequestURI();
     String contextPath = request.getContextPath();
     String urlMapping = requestURI.substring(contextPath.length());
     
     ActionForward af = null;
-    ArticleService articleService = new ArticleServiceImpl();
     
     switch(urlMapping) {
-    case "/article/writeArticle.do":
-      af = new ActionForward("/article/writeArticle.jsp", false);
-      break;
     case "/index.do":
       af = new ActionForward("/index.jsp", false);
-    case "/article/addArticle.do":
-      af = articleService.addArticle(request);
       break;
-    case "/article/getArticleList.do":
-      af = articleService.getArticleList(request);
+    case "/writeArticle.do":
+      af = new ActionForward("/article/write.jsp", false);
       break;
-    case "/article/getArticleDetail.do":
-      af = articleService.getArticleDetail(request);
+    case "/addArticle.do":
+      af = articleService.add(request);
       break;
-    case "/article/editArticle.do":
-      af = articleService.editArticle(request);
+    case "/getArticleList.do":
+      af = articleService.list(request);
       break;
-    case "/article/modifyArticle.do":
-      af = articleService.modifyArticle(request);
+    case "/getArticleDetail.do":
+      af = articleService.detail(request);
       break;
-    case "/article/deleteArticle.do":
-      af = articleService.deleteArticle(request);
+    case "/editArticle.do":
+      af = articleService.edit(request);
       break;
-  
+    case "/modifyArticle.do":
+      af = articleService.modify(request);
+      break;
+    case "/plusHit.do":
+      af = articleService.plusHit(request);
+      break;
+    case "/deleteArticle.do":
+      af = articleService.delete(request);
+      break;
+   
     }
+    
+    // 이동
     if(af != null) {
       if(af.isRedirect()) {
         response.sendRedirect(af.getPath());
@@ -73,14 +80,15 @@ public class ArticleController extends HttpServlet {
         request.getRequestDispatcher(af.getPath()).forward(request, response);
       }
     }
-	}
+    
+  }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+  /**
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+   */
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // TODO Auto-generated method stub
+    doGet(request, response);
+  }
 
 }

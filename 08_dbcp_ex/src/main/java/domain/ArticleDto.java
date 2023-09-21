@@ -17,7 +17,6 @@ public class ArticleDto {
   private String content;
   private String editor;
   private int hit;
-  private Date last_modified;
+  private Date lastmodified;
   private Date created;
-  
 }
