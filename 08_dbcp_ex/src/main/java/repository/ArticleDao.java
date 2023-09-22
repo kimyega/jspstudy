@@ -231,7 +231,7 @@ public class ArticleDao {
     try {
       
       con = dataSource.getConnection();
-      String sql = "DELETE FROM ARTICLE_T WHERE ARTICLE_NO IN(" + articles + ")";
+      String sql = "DELETE FROM ARTICLE_T WHERE ARTICLE_NO IN(" + articles + ")"; // 보안때문에 ?를 사용하는게 좋다.
       ps = con.prepareStatement(sql);
       deleteResult = ps.executeUpdate();
       
